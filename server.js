@@ -2,7 +2,9 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const tasksContainer = require('./tasks.json');
 
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 
 /**
