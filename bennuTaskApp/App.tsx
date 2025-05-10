@@ -13,15 +13,19 @@ import {NavigationContainer} from '@react-navigation/native';
 import {theme} from './src/styles/theme';
 import {Routes} from './src/routes';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
 
 function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
-      <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          <Routes />
-        </NavigationContainer>
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <NavigationContainer>
+            <Routes />
+          </NavigationContainer>
+        </ThemeProvider>
+      </Provider>
     </SafeAreaProvider>
   );
 }
