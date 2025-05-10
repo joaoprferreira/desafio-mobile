@@ -1,6 +1,6 @@
-import {IThemeProviderProps} from '../types/themeTypes';
+import {DefaultTheme} from 'styled-components';
 
-export const theme: IThemeProviderProps = {
+export const theme: DefaultTheme = {
   colors: {
     primary: '#6200ee',
     primaryDark: '#3700b3',
