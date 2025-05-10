@@ -1,5 +1,5 @@
 import React from 'react';
-import {Home} from '../screens';
+import {Home, NewTask} from '../screens';
 import {StackRoutesEnum} from '../types/routes';
 
 export const StackRoutes: {
@@ -11,5 +11,10 @@ export const StackRoutes: {
     name: StackRoutesEnum.home,
     options: {title: 'minhas tarefas'},
     component: Home,
+  },
+  {
+    name: StackRoutesEnum.newTask,
+    options: {title: 'Adicionar item'},
+    component: NewTask,
   },
 ];
