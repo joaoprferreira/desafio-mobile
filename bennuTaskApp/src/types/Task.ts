@@ -3,7 +3,19 @@ export type Task = {
   title: string;
   description?: string;
   completed: boolean;
-  onToggle: (id: string) => void;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
+  createdAt: string;
 };
+
+export interface ITask {
+  id: string;
+  title: string;
+  description?: string;
+  completed?: boolean;
+  createdAt?: string;
+}
+
+export interface IListTask {
+  items: Task[];
+  loading: boolean;
+  error: string | null;
+}
