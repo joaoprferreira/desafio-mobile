@@ -6,6 +6,7 @@ export const TitleComponent = styled(Text)``;
 
 export const PageContainer = styled(View)`
   flex: 1;
+  padding: 60px 24px 80px;
 `;
 
 export const StyledButton = styled(Button)`
