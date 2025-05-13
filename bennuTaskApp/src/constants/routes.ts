@@ -17,4 +17,9 @@ export const StackRoutes: {
     options: {title: 'Adicionar item'},
     component: NewTask,
   },
+  {
+    name: StackRoutesEnum.editTask,
+    options: {title: 'Editar item'},
+    component: NewTask,
+  },
 ];
