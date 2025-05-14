@@ -11,7 +11,7 @@ interface TaskItemProps {
   item?: Task;
   onDelete?: () => void;
   onEdit?: (item: Task) => void;
-  onToggle?: () => void;
+  onToggle?: (item: string) => void;
 }
 
 export const TaskItem: React.FC<TaskItemProps> = ({
@@ -42,7 +42,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({
         />
       ) : (
         <>
-          <Styled.CheckButton completed={item?.completed} onPress={() => {}}>
+          <Styled.CheckButton
+            completed={item?.completed}
+            onPress={() => onToggle?.(item)}>
             {item?.completed && (
               <Check width={30} height={30} color={theme.colors.primary} />
             )}
