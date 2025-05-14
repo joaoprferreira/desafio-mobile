@@ -1,4 +1,4 @@
-import {TextInput, View} from 'react-native';
+import {Text, TextInput, View} from 'react-native';
 import styled from 'styled-components';
 import {Button} from '../../Components/Button';
 
@@ -15,11 +15,19 @@ export const Input = styled(TextInput)`
 `;
 
 export const StyledButton = styled(Button)`
-  background-color: ${({theme}) => theme.colors.primary};
+  background-color: ${({theme, disabled}) =>
+    disabled ? theme.colors.gray : theme.colors.primary};
   align-self: flex-end;
   padding: 10px 30px;
   border-radius: 30px;
   position: absolute;
   bottom: 60px;
   right: 35%;
+`;
+
+export const TitleButton = styled(Text)`
+  color: ${({theme}) => theme.colors.surface};
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
 `;
