@@ -1,4 +1,5 @@
 import {ROUTES} from '../routes/routes';
+import {Task} from './Task';
 
 export enum StackRoutesEnum {
   home = 'Home',
@@ -8,6 +9,6 @@ export enum StackRoutesEnum {
 
 export type RootStackParamList = {
   [ROUTES.HOME]: undefined;
-  [ROUTES.NEW_TASK]: undefined;
-  [ROUTES.EDIT_TASK]: {id?: string};
+  [ROUTES.NEW_TASK]: Task;
+  [ROUTES.EDIT_TASK]: Task;
 };
