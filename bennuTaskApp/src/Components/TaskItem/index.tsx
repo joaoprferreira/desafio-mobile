@@ -1,19 +1,16 @@
-import React, {useEffect} from 'react';
-// import {Check, Trash2, Edit} from 'react-native-feather';
+import React from 'react';
 import {useTheme} from 'styled-components';
 import * as Styled from './styles';
 import {Task} from '../../types/Task';
-import Icons from '../../assets/icons';
 import {Trash, Edit, Check} from '../../assets/icons';
-import {useTask} from '../../hooks/useTask';
 import {ActivityIndicator} from 'react-native';
-import {useRoute} from '@react-navigation/native';
-import {useAppSelector} from '../../redux/store/store';
+import useNewTask from '../../hooks/useNewTask';
+import {useGetTasksQuery} from '../../services/api';
 
 interface TaskItemProps {
   item?: Task;
   onDelete?: () => void;
-  onEdit?: () => void;
+  onEdit?: (item: Task) => void;
   onToggle?: () => void;
 }
 
@@ -30,17 +27,18 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   onToggle,
 }) => {
   const theme = useTheme();
-  const {loading} = useTask();
+  const {data: items = [], isLoading} = useGetTasksQuery();
+  const {handleDeleteTask} = useNewTask({params: item});
   if (!item) {
-    return <ActivityIndicator animating={loading} />;
+    return <ActivityIndicator animating={isLoading} />;
   }
 
   return (
     <Styled.Container>
-      {loading ? (
+      {isLoading ? (
         <ActivityIndicator
           color={theme.colors.primaryDark}
-          animating={loading}
+          animating={isLoading}
         />
       ) : (
         <>
@@ -66,7 +64,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               <Edit width={20} height={20} color={theme.colors.primary} />
             </Styled.ActionButton>
 
-            <Styled.ActionButton onPress={() => {}}>
+            <Styled.ActionButton onPress={() => handleDeleteTask(item?.id)}>
               <Trash width={20} height={20} color={theme.colors.error} />
             </Styled.ActionButton>
           </Styled.ActionContainer>
