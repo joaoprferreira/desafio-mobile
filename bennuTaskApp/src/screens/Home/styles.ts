@@ -16,3 +16,17 @@ export const StyledButton = styled(Button)`
   bottom: 60px;
   right: 43%;
 `;
+
+export const SkeletonContainer = styled(View)`
+  flex: 1;
+  padding: 60px 24px 80px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const TitleSkeleton = styled(Text)`
+  font-size: 24px;
+  font-weight: bold;
+  color: ${({theme}) => theme.colors.primary};
+  text-align: center;
+`;
