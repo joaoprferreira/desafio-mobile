@@ -1,64 +1,36 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Text} from 'react-native';
 import * as Styled from './styles';
-import {useAppDispatch, useAppSelector} from '../../redux/store/store';
-import {addTask} from '../../redux/slices/tasksSlice';
+import {useAppSelector} from '../../redux/store/store';
 import {useRoute} from '@react-navigation/native';
+import useNewTask from '../../hooks/useNewTask';
+import {Task} from '../../types/Task';
+import {useGetTasksQuery} from '../../services/api';
 
 export const NewTask = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const dispatch = useAppDispatch();
   const route = useRoute();
-  const {loading, error} = useAppSelector(state => state.tasks);
-  const params = route.params;
-  const {id, title: tilteTask, description: descriptionTask} = params;
-  const items = useAppSelector(state => state.tasks.items) ?? [];
+  // const {error} = useAppSelector(state => state.tasks);
+  const params = (route.params ?? {}) as Partial<Task>;
+  const {id} = params;
+  const {data: items = [], isLoading, error} = useGetTasksQuery();
+
   const task = Array.isArray(items) ? items.find(item => item.id === id) : null;
 
-  console.log('Items::', items);
-  console.log('Isso é oque está chegando através de params:', params);
+  const {
+    handlerButtonConfirmation,
+    currentTitle,
+    currentDescription,
+    setCurrentDescription,
+    setCurrentTitle,
+  } = useNewTask({params});
+
   useEffect(() => {
     if (task) {
-      setTitle(task.title);
-      setDescription(task.description || '');
+      setCurrentTitle(task.title);
+      setCurrentDescription(task.description || '');
     }
-  }, [task]);
+  }, [task, setCurrentDescription, setCurrentTitle]);
 
-  console.log('Task::', task);
-  console.log('ID::', id);
-
-  console.log('Loading::', loading);
-  console.log('Error::', error);
-  console.log('Title::', title);
-
-  const handleSubmit = async () => {
-    if (!title.trim()) {
-      console.log('O título é obrigatório');
-      return;
-    }
-    console.log('Entrei aqui');
-
-    try {
-      const resultAction = await dispatch(
-        addTask({
-          title: title,
-          description: description,
-          completed: false,
-        }),
-      );
-      console.log('resultActions::', resultAction);
-
-      if (addTask.fulfilled.match(resultAction)) {
-        setTitle('');
-        setDescription('');
-        console.log('Tarefa criada com sucesso!');
-      }
-    } catch (error) {
-      console.error('Erro ao criar tarefa:', error);
-      console.log('Erro ao criar tarefa');
-    }
-  };
   return (
     <Styled.PageContainer>
       <Text>OI Aqui você cria uma nova task</Text>
@@ -67,17 +39,17 @@ export const NewTask = () => {
       <Styled.Input
         testID="title"
         placeholder="Título"
-        value={title}
-        onChangeText={setTitle}
+        value={currentTitle}
+        onChangeText={setCurrentTitle}
       />
       <Styled.Input
         testID="description"
         placeholder="Descrição"
-        value={description}
-        onChangeText={setDescription}
+        value={currentDescription}
+        onChangeText={setCurrentDescription}
       />
-      <Styled.StyledButton onPress={handleSubmit}>
-        <Text>Criar nova task</Text>
+      <Styled.StyledButton onPress={handlerButtonConfirmation}>
+        <Text>{id ? 'Salvar alterações' : 'Criar nova task'}</Text>
       </Styled.StyledButton>
     </Styled.PageContainer>
   );
