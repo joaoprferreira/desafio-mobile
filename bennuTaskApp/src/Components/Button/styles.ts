@@ -6,7 +6,9 @@ interface ContainerProps {
 }
 
 export const StyledButton = styled(TouchableOpacity)<ContainerProps>`
-  border: 1px solid ${({color, theme}) => color || theme.colors.primary};
+  border: 1px solid
+    ${({color, theme, disabled}) =>
+      disabled ? theme.colors.gray : color || theme.colors.primary};
   padding: 10px;
   border-radius: 30px;
   margin-left: 10px;
