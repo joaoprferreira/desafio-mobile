@@ -15,9 +15,11 @@ export const Routes = () => {
         headerStyle: {
           backgroundColor: '#6200ee',
         },
+        headerTitleAlign: 'center',
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
+          fontSize: 18,
         },
       }}>
       {StackRoutes.map(({name, component, options}) => (
