@@ -15,6 +15,7 @@ export const theme: DefaultTheme = {
     placeholder: 'rgba(0, 0, 0, 0.54)',
     backdrop: 'rgba(0, 0, 0, 0.5)',
     onSurface: '#000000',
+    gray: '#cccccc',
   },
   spacing: {
     s: 8,

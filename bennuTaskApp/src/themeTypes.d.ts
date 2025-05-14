@@ -16,6 +16,8 @@ declare module 'styled-components' {
       placeholder: string;
       backdrop: string;
       onSurface: string;
+      // gray: string;
+      [key: string]: string;
     };
     spacing: {
       s: number;
