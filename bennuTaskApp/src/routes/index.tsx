@@ -28,11 +28,6 @@ export const Routes = () => {
           component={component}
         />
       ))}
-      {/* <Stack.Screen
-        name={ROUTES.TODO_DETAIL}
-        component={TodoDetail}
-        options={({route}) => ({title: `Tarefa #${route.params.id}`})}
-      /> */}
     </Stack.Navigator>
   );
 };
