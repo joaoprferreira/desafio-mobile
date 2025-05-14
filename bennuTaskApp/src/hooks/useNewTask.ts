@@ -1,5 +1,6 @@
 interface IUseNewTask {
   params?: Partial<Task>;
+  refetch?: () => void;
 }
 
 import {useState} from 'react';
@@ -12,7 +13,7 @@ import {
   useDeleteTaskMutation,
 } from '../services/api';
 
-const useNewTask = ({params = {}}: IUseNewTask) => {
+const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
   const {id, title, description, completed} = params;
   const [currentTitle, setCurrentTitle] = useState(title || '');
   const [currentDescription, setCurrentDescription] = useState(
@@ -24,10 +25,12 @@ const useNewTask = ({params = {}}: IUseNewTask) => {
   const [updateTask] = useUpdateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
+  const isDisableButton = !currentTitle || !currentDescription;
+
   const handleDeleteTask = async (deleteId?: string) => {
     const taskId = deleteId || id;
 
-    if (!taskId) {
+    if (taskId === undefined || taskId === null) {
       Toast.show({type: 'error', text1: 'ID não encontrado', position: 'top'});
       return;
     }
@@ -44,6 +47,34 @@ const useNewTask = ({params = {}}: IUseNewTask) => {
       Toast.show({
         type: 'error',
         text1: 'Erro ao deletar',
+        text2: String(error),
+      });
+    }
+  };
+
+  const handleCheckTask = async (task: Task) => {
+    if (task.id === undefined || task.id === null) {
+      Toast.show({type: 'error', text1: 'ID não encontrado', position: 'top'});
+      return;
+    }
+
+    try {
+      await updateTask({
+        id: task.id,
+        task: {
+          title: task.title,
+          description: task.description,
+          completed: !task.completed,
+        },
+      }).unwrap();
+      Toast.show({type: 'success', text1: ''});
+      if (refetch) {
+        refetch();
+      }
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao editar',
         text2: String(error),
       });
     }
@@ -93,6 +124,13 @@ const useNewTask = ({params = {}}: IUseNewTask) => {
       setCurrentTitle('');
       setCurrentDescription('');
       Toast.show({type: 'success', text1: 'Tarefa criada com sucesso!'});
+
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'Home'}],
+        }),
+      );
     } catch (error) {
       console.log('Error::', error);
       Toast.show({
@@ -112,6 +150,8 @@ const useNewTask = ({params = {}}: IUseNewTask) => {
     currentDescription,
     setCurrentDescription,
     setCurrentTitle,
+    isDisableButton,
+    handleCheckTask,
   };
 };
 export default useNewTask;
