@@ -21,9 +21,9 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
   );
   const navigation = useNavigation();
 
-  const [addTask] = useAddTaskMutation();
-  const [updateTask] = useUpdateTaskMutation();
-  const [deleteTask] = useDeleteTaskMutation();
+  const [addTask, {isLoading: isAdding}] = useAddTaskMutation();
+  const [updateTask, {isLoading: isUpdating}] = useUpdateTaskMutation();
+  const [deleteTask, {isLoading: isDeleting}] = useDeleteTaskMutation();
 
   const isDisableButton = !currentTitle || !currentDescription;
 
@@ -144,7 +144,6 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
         }),
       );
     } catch (error) {
-      console.log('Error::', error);
       Toast.show({
         type: 'error',
         text1: 'Erro ao criar tarefa',
@@ -164,6 +163,9 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
     setCurrentTitle,
     isDisableButton,
     handleCheckTask,
+    isAdding,
+    isUpdating,
+    isDeleting,
   };
 };
 export default useNewTask;
