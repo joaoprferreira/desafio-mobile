@@ -1,17 +1,14 @@
 import React, {useRef} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {Animated, FlatList, Text} from 'react-native';
+import {Animated, FlatList} from 'react-native';
 import {TaskItem} from '../../Components/TaskItem';
 import {Plus} from '../../assets/icons';
 import * as Styled from './styles';
 import {useNavigation} from '@react-navigation/native';
-import {useAppDispatch, useAppSelector} from '../../redux/store/store';
-import {fetchTasks} from '../../redux/slices/tasksSlice';
-import {Task as TaskType} from '../../types/Task';
+import {Task, Task as TaskType} from '../../types/Task';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/routes';
 import {useGetTasksQuery} from '../../services/api';
-
 import {SkeletonPageContainer} from '../../Components/skeletonPageContainer';
 import {useAnimation} from '../../hooks/useAnimation';
 import useNewTask from '../../hooks/useNewTask';
@@ -20,10 +17,13 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 export const Home = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>();
-  // const dispatch = useAppDispatch();
-  const {data: items = [], error, isLoading, refetch} = useGetTasksQuery();
+  const {
+    data: items = {tasks: []},
+    error,
+    isLoading,
+    refetch,
+  } = useGetTasksQuery();
   const {pulseAnim} = useAnimation();
-  console.log('Items::', items);
   const {handleCheckTask} = useNewTask({params: items, refetch});
   const confettiRef = useRef<any>(null);
 
@@ -46,11 +46,13 @@ export const Home = () => {
 
   return (
     <SkeletonPageContainer
-      pageTitle={`${Number(items.tasks?.length)} tarefas ativas`}
+      pageTitle={`${Number(
+        items.tasks.filter(task => !task.completed)?.length,
+      )} tarefas ativas`}
       subtitle="Organize seu dia com facilidade">
-      {items?.tasks?.length > 0 ? (
+      {items.tasks && items.tasks.filter(t => !t.completed).length > 0 ? (
         <FlatList
-          data={items.tasks}
+          data={items.tasks.filter(task => !task.completed)}
           renderItem={({item}) => (
             <TaskItem
               item={item}
@@ -75,7 +77,10 @@ export const Home = () => {
         <Styled.StyledButton
           onPress={() => navigation.navigate('NewTask')}
           testID="add-button">
-          <Plus width={35} height={35} />
+          <Styled.ContainerButton>
+            <Plus width={20} height={20} />
+            <Styled.StyledButtonText>Adicionar</Styled.StyledButtonText>
+          </Styled.ContainerButton>
         </Styled.StyledButton>
       </Animated.View>
       <ConfettiCannon
