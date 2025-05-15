@@ -17,17 +17,7 @@ export const theme: DefaultTheme = {
     onSurface: '#000000',
     gray: '#cccccc',
   },
-  spacing: {
-    s: 8,
-    m: 16,
-    l: 24,
-    xl: 40,
-  },
-  borderRadius: {
-    s: 4,
-    m: 8,
-    l: 16,
-  },
+
   textVariants: {
     header: {
       fontSize: 24,

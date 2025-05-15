@@ -19,17 +19,7 @@ declare module 'styled-components' {
       // gray: string;
       [key: string]: string;
     };
-    spacing: {
-      s: number;
-      m: number;
-      l: number;
-      xl: number;
-    };
-    borderRadius: {
-      s: number;
-      m: number;
-      l: number;
-    };
+
     textVariants: {
       header: {
         fontSize: number;
