@@ -4,6 +4,7 @@ import {TypedUseSelectorHook, useSelector, useDispatch} from 'react-redux';
 import {tasksApi} from '../../services/api';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+AsyncStorage.clear();
 
 const persistConfig = {
   key: 'root',
