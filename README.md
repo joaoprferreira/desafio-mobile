@@ -10,10 +10,10 @@ Este repositório apresenta minha solução para o desafio proposto pela Bennu, 
 
 Antes de começar, certifique-se de ter instalado:
 
-- **Node.js** na versão `14.17.6` (sugestão: use `nvm use` para garantir a versão correta)
+- **Node.js** na versão `v23.0.0` (sugestão: use `nvm use` para garantir a versão correta)
 - **Yarn** como gerenciador de pacotes
-- Ambiente configurado para desenvolvimento em **React Native** (Android/iOS)
-- [Especificações completas do desafio](./regras.md)
+- Ambiente configurado para desenvolvimento em **React Native** (Android)
+- [Especificações completas do desafio](../desafio-mobile/Regras.md)
 
 ---
 
