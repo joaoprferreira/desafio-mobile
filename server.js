@@ -101,7 +101,7 @@ app.put('/task/update', (req, res) => {
  */
 app.post('/task/create', (req, res) => {
   const task = {
-    id: tasksContainer.tasks.length,
+    id: tasksContainer.tasks.length + 1,
     title: req.body.title,
     description: req.body.description,
     done: false,
