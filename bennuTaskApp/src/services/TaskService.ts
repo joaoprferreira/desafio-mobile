@@ -14,7 +14,6 @@ export const createTask = async (
     description: task.description,
   });
 
-  console.log('Response::', response);
   return {
     ...response.data,
     completed: false,
