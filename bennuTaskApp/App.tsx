@@ -15,18 +15,21 @@ import {theme} from './src/styles/theme';
 import {Routes} from './src/routes';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
-import {store} from './src/redux/store/store';
+import {store, persistor} from './src/redux/store/store';
+import {PersistGate} from 'redux-persist/es/integration/react';
 
 function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <NavigationContainer>
-            <Routes />
-            <Toast />
-          </NavigationContainer>
-        </ThemeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            <NavigationContainer>
+              <Routes />
+              <Toast />
+            </NavigationContainer>
+          </ThemeProvider>
+        </PersistGate>
       </Provider>
     </SafeAreaProvider>
   );
