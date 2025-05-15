@@ -36,7 +36,10 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
     }
     try {
       await deleteTask({id: taskId}).unwrap();
-      Toast.show({type: 'success', text1: 'Task deletada com sucesso'});
+      Toast.show({
+        type: 'success',
+        text1: 'A tarefa foi excluída. Menos uma pendência na sua lista.',
+      });
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -67,7 +70,10 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
           completed: !task.completed,
         },
       }).unwrap();
-      Toast.show({type: 'success', text1: ''});
+      Toast.show({
+        type: 'success',
+        text1: 'Você finalizou essa tarefa. Vamos para a próxima?',
+      });
       if (refetch) {
         refetch();
       }
@@ -81,7 +87,7 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
   };
 
   const handleEditTask = async () => {
-    if (!id) {
+    if (id === undefined || id === null) {
       Toast.show({type: 'error', text1: 'ID não encontrado', position: 'top'});
       return;
     }
@@ -94,7 +100,10 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
           completed: completed ?? false,
         },
       }).unwrap();
-      Toast.show({type: 'success', text1: 'Task editada com sucesso'});
+      Toast.show({
+        type: 'success',
+        text1: 'As alterações foram salvas. Tudo pronto!',
+      });
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -123,7 +132,10 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
       }).unwrap();
       setCurrentTitle('');
       setCurrentDescription('');
-      Toast.show({type: 'success', text1: 'Tarefa criada com sucesso!'});
+      Toast.show({
+        type: 'success',
+        text1: 'Nova tarefa adicionada. Boa sorte na execução!',
+      });
 
       navigation.dispatch(
         CommonActions.reset({
