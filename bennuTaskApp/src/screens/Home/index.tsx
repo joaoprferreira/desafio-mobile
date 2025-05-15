@@ -17,14 +17,11 @@ import ConfettiCannon from 'react-native-confetti-cannon';
 export const Home = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'Home'>>();
-  const {
-    data: items = {tasks: []},
-    error,
-    isLoading,
-    refetch,
-  } = useGetTasksQuery();
+  const {data: items = {tasks: []}, isLoading, refetch} = useGetTasksQuery();
   const {pulseAnim} = useAnimation();
-  const {handleCheckTask} = useNewTask({params: items, refetch});
+  const {handleCheckTask, handleDeleteTask} = useNewTask({
+    refetch,
+  });
   const confettiRef = useRef<any>(null);
 
   useFocusEffect(
@@ -58,6 +55,7 @@ export const Home = () => {
               item={item}
               onEdit={itemEdit => navigateToEdit(itemEdit)}
               onToggle={() => handleCheckTaskWithConfetti(item)}
+              onDelete={() => handleDeleteTask(item.id)}
             />
           )}
           refreshing={isLoading}
