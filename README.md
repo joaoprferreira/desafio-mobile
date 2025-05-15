@@ -1,37 +1,98 @@
-# Desafio Mobile Bennu
+# ✅ Desafio Mobile - Bennu
 
-## 🚀 Sobre o desafio
+Este repositório apresenta minha solução para o desafio proposto pela Bennu, onde desenvolvi um aplicativo de lista de tarefas (TO-DO) utilizando **React Native**, com foco em boas práticas, escalabilidade e testes.
 
-Construa uma aplicação para que possamos entender o seu nível de conhecimento em React Native.
+<img src="./BennuTaskApp.gif" alt="app" style="width:200px;"/>
 
-O código deve consumir da API que será enviada junto com o teste.
-Certifique-se de instalar as dependencias `npm install` e rodar o server: `npm start`, o server.js está devidamente documentado.
+---
 
-**O Objetivo do teste é verificar a qualidade do código e tomada de decisões.**
+## 📋 Requisitos para rodar o projeto
 
-## Como fazer?
+Antes de começar, certifique-se de ter instalado:
 
-Faça um Fork deste desafio e crie o seu projeto (ou workspace) usando a sua versão desse repositório, tão logo acabe o desafio, submeta um pull request.
+- **Node.js** na versão `14.17.6` (sugestão: use `nvm use` para garantir a versão correta)
+- **Yarn** como gerenciador de pacotes
+- Ambiente configurado para desenvolvimento em **React Native** (Android/iOS)
+- [Especificações completas do desafio](./regras.md)
 
-## Requisitos
+---
 
-Desenvolver uma aplicação de TODO pensando nos seguintes pontos:
+## ⚙️ Como executar o projeto
 
-- Tecnologias: React e Redux
-- Typescript
-- O layout deve ser responsivo
-- Styled Components e Styled System
-- CRUD de Tarefas (Criar, Listar, Editar, Deletar)
-- Opção de Completar Tarefas
+### 🔌 Backend
 
-**Bônus:**
+1. Acesse o diretório raiz do backend:
 
-- React Navigation
-- React Hooks
-- Yarn
+   ```bash
+   cd server.js
+   ```
 
-Se sentir que precisa de algo que não está especificado, pode adicionar, mas não é obrigatório. 
+2. Instale as dependências:
 
-Fique a vontade para entrar em contato em caso de dúvidas :)
+   ```bash
+   npm install
+   ```
 
-Boa sorte e divirta-se!!!
+3. Inicie o servidor:
+   ```bash
+   npm start
+   ```
+
+---
+
+### 📱 Frontend (App React Native)
+
+1. Vá até a pasta do projeto:
+
+   ```bash
+   cd bennuTaskAPp
+   ```
+
+2. Instale os pacotes necessários:
+
+   ```bash
+   yarn
+   ```
+
+3. Inicie o Metro Bundler:
+   ```bash
+   yarn start
+   ```
+
+---
+
+### 📦 Build do aplicativo
+
+#### Para Android:
+
+```bash
+adb reverse tcp:9001 tcp:9001
+yarn android
+```
+
+<!-- #### Para iOS:
+```bash
+yarn ios
+``` -->
+
+---
+
+## 🛠️ Tecnologias e bibliotecas utilizadas
+
+- **React Native** (v0.70.5) → [Documentação oficial](https://reactnative.dev/docs/environment-setup)
+- **TypeScript**
+- **Redux Toolkit**, **Redux Persist** e **Redux Query**
+- **Styled Components**
+- **React Navigation**
+- **React Native Dotenv**
+- **Jest** + **Testing Library**
+- **Yarn** como gerenciador de pacotes
+
+---
+
+## 📝 Considerações
+
+- Realizei ajustes na API para permitir a conclusão de tarefas via PATCH/PUT.
+- Todos os requisitos do desafio foram atendidos, com exceção do `Styled System`, que foi substituído pelo `Styled Components`, oferecendo a mesma eficiência na composição visual dos componentes.
+
+---
