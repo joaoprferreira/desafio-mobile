@@ -24,18 +24,18 @@ Antes de começar, certifique-se de ter instalado:
 1. Acesse o diretório raiz do backend:
 
    ```bash
-   cd server.js
+   desafio-mobile
    ```
 
 2. Instale as dependências:
 
    ```bash
-   npm install
+   yarn
    ```
 
 3. Inicie o servidor:
    ```bash
-   npm start
+   yarn start
    ```
 
 ---
