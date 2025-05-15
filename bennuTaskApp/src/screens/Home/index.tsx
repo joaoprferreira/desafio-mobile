@@ -59,7 +59,7 @@ export const Home = () => {
             />
           )}
           refreshing={isLoading}
-          keyExtractor={task => String(task.id)}
+          keyExtractor={(task, index) => String(task.id ?? index)}
         />
       ) : (
         <Styled.SkeletonContainer>
