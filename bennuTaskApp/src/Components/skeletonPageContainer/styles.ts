@@ -8,15 +8,15 @@ export const SkeletonContainer = styled(View)`
   justify-content: center;
 `;
 export const TitleSkeleton = styled(Text)`
-  font-size: 24px;
-  font-weight: bold;
-  color: ${({theme}) => theme.colors.primary};
+  font-size: ${({theme}) => theme.textVariants.header.fontSize}px;
+  font-weight: ${({theme}) => theme.textVariants.header.fontWeight};
+  color: ${({theme}) => theme.colors.primaryDark};
   text-align: center;
 `;
 
 export const SubtitleSkeleton = styled(Text)`
-  font-size: 16px;
-  color: ${({theme}) => theme.colors.primary};
+  font-size: ${({theme}) => theme.textVariants.body.fontSize}px;
+  color: ${({theme}) => theme.colors.primaryDark};
   text-align: center;
   margin: 20px auto;
 `;
