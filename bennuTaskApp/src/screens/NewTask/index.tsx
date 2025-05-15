@@ -10,10 +10,9 @@ import {useAnimation} from '../../hooks/useAnimation';
 
 export const NewTask = () => {
   const route = useRoute();
-  // const {error} = useAppSelector(state => state.tasks);
   const params = (route.params ?? {}) as Partial<Task>;
   const {id} = params;
-  const {data: items = [], isLoading, error} = useGetTasksQuery();
+  const {data: items = {tasks: []}, error} = useGetTasksQuery();
   const {pulseAnim} = useAnimation();
   const task = Array.isArray(items) ? items.find(item => item.id === id) : null;
 
@@ -44,7 +43,11 @@ export const NewTask = () => {
           : 'Insira as informações da nova tarefa nos campos abaixo.'
       }>
       <Styled.PageContainer>
-        {error && <Text>{error}</Text>}
+        {error && (
+          <Text>
+            <>{error}</>
+          </Text>
+        )}
 
         <Styled.Input
           testID="title"
