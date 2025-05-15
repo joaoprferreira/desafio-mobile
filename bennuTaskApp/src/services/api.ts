@@ -2,15 +2,17 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 import {Platform} from 'react-native';
 import {Task} from '../types/Task';
+import {IGetQueryTasks} from './type';
+import {BACKEND_API_ANDROID, BACKEND_API_IOS} from '@env';
 
 const baseURL =
-  Platform.OS === 'android' ? 'http://10.0.2.2:9001' : 'http://localhost:9001';
+  Platform.OS === 'android' ? BACKEND_API_ANDROID : BACKEND_API_IOS;
 
 export const tasksApi = createApi({
   reducerPath: 'tasksApi',
   baseQuery: fetchBaseQuery({baseUrl: baseURL}),
   endpoints: builder => ({
-    getTasks: builder.query<Task[], void>({query: () => '/tasks'}),
+    getTasks: builder.query<IGetQueryTasks, void>({query: () => '/tasks'}),
     addTask: builder.mutation<Task, Omit<Task, 'id' | 'createdAt'>>({
       query: task => ({
         url: '/task/create',
