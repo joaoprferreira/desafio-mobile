@@ -9,6 +9,6 @@ export enum StackRoutesEnum {
 
 export type RootStackParamList = {
   [ROUTES.HOME]: undefined;
-  [ROUTES.NEW_TASK]: Task;
+  [ROUTES.NEW_TASK]: undefined;
   [ROUTES.EDIT_TASK]: Task;
 };
