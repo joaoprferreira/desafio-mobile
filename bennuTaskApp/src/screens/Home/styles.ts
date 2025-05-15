@@ -10,11 +10,27 @@ export const PageContainer = styled(View)`
 `;
 
 export const StyledButton = styled(Button)`
-  background-color: ${({theme}) => theme.colors.primary};
-  box-shadow: 1px 1px 10px ${({theme}) => theme.colors.primaryDark};
+  background-color: ${({theme}) => theme.colors.primaryLight};
+  elevation: 5;
   position: absolute;
-  bottom: 60px;
-  right: 43%;
+  bottom: 10px;
+  right: 22%;
+  width: 200px;
+  border: none;
+`;
+
+export const StyledButtonText = styled(Text)`
+  color: ${({theme}) => theme.colors.backdrop};
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+export const ContainerButton = styled(View)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
 `;
 
 export const SkeletonContainer = styled(View)`
@@ -25,8 +41,8 @@ export const SkeletonContainer = styled(View)`
 `;
 
 export const TitleSkeleton = styled(Text)`
-  font-size: 24px;
-  font-weight: bold;
+  font-size: ${({theme}) => theme.textVariants.header.fontSize}px;
+  font-weight: ${({theme}) => theme.textVariants.header.fontWeight};
   color: ${({theme}) => theme.colors.primary};
   text-align: center;
 `;
