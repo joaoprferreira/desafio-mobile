@@ -8,7 +8,7 @@ export const useAnimation = () => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(pulseAnim, {
-          toValue: 1.15,
+          toValue: 1.05,
           duration: 700,
           easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
