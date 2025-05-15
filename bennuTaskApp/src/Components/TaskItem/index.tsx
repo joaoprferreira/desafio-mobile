@@ -4,14 +4,13 @@ import * as Styled from './styles';
 import {Task} from '../../types/Task';
 import {Trash, Edit, Check} from '../../assets/icons';
 import {ActivityIndicator} from 'react-native';
-import useNewTask from '../../hooks/useNewTask';
-import {useGetTasksQuery} from '../../services/api';
+import {useDeleteTaskMutation, useGetTasksQuery} from '../../services/api';
 
 interface TaskItemProps {
   item?: Task;
-  onDelete?: () => void;
+  onDelete?: (item: Task) => void;
   onEdit?: (item: Task) => void;
-  onToggle?: (item: string) => void;
+  onToggle?: (item: Task) => void;
 }
 
 export const TaskItem: React.FC<TaskItemProps> = ({
@@ -27,8 +26,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({
   onToggle,
 }) => {
   const theme = useTheme();
-  const {data: items = [], isLoading} = useGetTasksQuery();
-  const {handleDeleteTask} = useNewTask({params: item});
+  const {isLoading} = useGetTasksQuery();
+  const [, {isLoading: isDeleting}] = useDeleteTaskMutation();
+  const [checked, setChecked] = React.useState(item.completed);
+
   if (!item) {
     return <ActivityIndicator animating={isLoading} />;
   }
@@ -44,18 +45,23 @@ export const TaskItem: React.FC<TaskItemProps> = ({
         <>
           <Styled.CheckButton
             completed={item?.completed}
-            onPress={() => onToggle?.(item)}>
-            {item?.completed && (
+            onPress={() => {
+              setChecked(true);
+              setTimeout(() => {
+                onToggle?.(item);
+              }, 1500);
+            }}>
+            {(item?.completed || checked) && (
               <Check width={30} height={30} color={theme.colors.primary} />
             )}
           </Styled.CheckButton>
 
           <Styled.Content>
-            <Styled.Title completed={item.completed}>
+            <Styled.Title completed={item.completed || checked}>
               {String(item?.title) || ''}
             </Styled.Title>
             {item?.description && (
-              <Styled.Description completed={item?.completed}>
+              <Styled.Description completed={item?.completed || checked}>
                 {item?.description}
               </Styled.Description>
             )}
@@ -66,8 +72,12 @@ export const TaskItem: React.FC<TaskItemProps> = ({
               <Edit width={20} height={20} color={theme.colors.primary} />
             </Styled.ActionButton>
 
-            <Styled.ActionButton onPress={() => handleDeleteTask(item?.id)}>
-              <Trash width={20} height={20} color={theme.colors.error} />
+            <Styled.ActionButton onPress={() => onDelete?.(item)}>
+              {isDeleting ? (
+                <ActivityIndicator size="large" color={theme.colors.primary} />
+              ) : (
+                <Trash width={20} height={20} color={theme.colors.error} />
+              )}
             </Styled.ActionButton>
           </Styled.ActionContainer>
         </>
