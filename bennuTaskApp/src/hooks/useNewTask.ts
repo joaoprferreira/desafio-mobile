@@ -11,13 +11,20 @@ import {
   useAddTaskMutation,
   useUpdateTaskMutation,
   useDeleteTaskMutation,
+  useGetTasksQuery,
 } from '../services/api';
 
 const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
-  const {id, title, description, completed} = params;
-  const [currentTitle, setCurrentTitle] = useState(title || '');
+  const {data: items = {tasks: []}, error} = useGetTasksQuery();
+  const task = Array.isArray(items)
+    ? items.find(item => item.id === params?.id)
+    : null;
+  // const {id, title, description, completed} = params;
+  const [currentTitle, setCurrentTitle] = useState(
+    task?.title || params?.title,
+  );
   const [currentDescription, setCurrentDescription] = useState(
-    description || '',
+    task?.description || params?.description,
   );
   const navigation = useNavigation();
 
@@ -26,9 +33,8 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
   const [deleteTask, {isLoading: isDeleting}] = useDeleteTaskMutation();
 
   const isDisableButton = !currentTitle || !currentDescription;
-
   const handleDeleteTask = async (deleteId?: string) => {
-    const taskId = deleteId || id;
+    const taskId = deleteId || params?.id;
 
     if (taskId === undefined || taskId === null) {
       Toast.show({type: 'error', text1: 'ID não encontrado', position: 'top'});
@@ -46,11 +52,11 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
           routes: [{name: 'Home'}],
         }),
       );
-    } catch (error) {
+    } catch (err) {
       Toast.show({
         type: 'error',
         text1: 'Erro ao deletar',
-        text2: String(error),
+        text2: String(err),
       });
     }
   };
@@ -77,27 +83,28 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
       if (refetch) {
         refetch();
       }
-    } catch (error) {
+    } catch (err) {
       Toast.show({
         type: 'error',
         text1: 'Erro ao editar',
-        text2: String(error),
+        text2: String(err),
       });
     }
   };
 
   const handleEditTask = async () => {
-    if (id === undefined || id === null) {
+    if (params?.id === undefined || params?.id === null) {
       Toast.show({type: 'error', text1: 'ID não encontrado', position: 'top'});
       return;
     }
+
     try {
       await updateTask({
-        id,
+        id: params?.id,
         task: {
           title: currentTitle,
           description: currentDescription,
-          completed: completed ?? false,
+          completed: task?.completed ?? false,
         },
       }).unwrap();
       Toast.show({
@@ -110,11 +117,11 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
           routes: [{name: 'Home'}],
         }),
       );
-    } catch (error) {
+    } catch (err) {
       Toast.show({
         type: 'error',
         text1: 'Erro ao editar',
-        text2: String(error),
+        text2: String(err),
       });
     }
   };
@@ -143,16 +150,16 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
           routes: [{name: 'Home'}],
         }),
       );
-    } catch (error) {
+    } catch (err) {
       Toast.show({
         type: 'error',
         text1: 'Erro ao criar tarefa',
-        text2: String(error),
+        text2: String(err),
       });
     }
   };
 
-  const handlerButtonConfirmation = id ? handleEditTask : handleSubmit;
+  const handlerButtonConfirmation = params?.id ? handleEditTask : handleSubmit;
 
   return {
     handlerButtonConfirmation,
@@ -166,6 +173,7 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
     isAdding,
     isUpdating,
     isDeleting,
+    error,
   };
 };
 export default useNewTask;

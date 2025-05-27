@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Text, Animated} from 'react-native';
 import * as Styled from './styles';
 import {useRoute} from '@react-navigation/native';
 import useNewTask from '../../hooks/useNewTask';
 import {Task} from '../../types/Task';
-import {useGetTasksQuery} from '../../services/api';
 import {SkeletonPageContainer} from '../../Components/skeletonPageContainer';
 import {useAnimation} from '../../hooks/useAnimation';
 
@@ -12,9 +11,7 @@ export const NewTask = () => {
   const route = useRoute();
   const params = (route.params ?? {}) as Partial<Task>;
   const {id} = params;
-  const {data: items = {tasks: []}, error} = useGetTasksQuery();
   const {pulseAnim} = useAnimation();
-  const task = Array.isArray(items) ? items.find(item => item.id === id) : null;
 
   const {
     handlerButtonConfirmation,
@@ -23,14 +20,8 @@ export const NewTask = () => {
     setCurrentDescription,
     setCurrentTitle,
     isDisableButton,
+    error,
   } = useNewTask({params});
-
-  useEffect(() => {
-    if (task) {
-      setCurrentTitle(task.title);
-      setCurrentDescription(task.description || '');
-    }
-  }, [task, setCurrentDescription, setCurrentTitle]);
 
   const isEditMode = Boolean(id);
 

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {Animated, FlatList} from 'react-native';
 import {TaskItem} from '../../Components/TaskItem';
@@ -12,7 +12,8 @@ import {useGetTasksQuery} from '../../services/api';
 import {SkeletonPageContainer} from '../../Components/skeletonPageContainer';
 import {useAnimation} from '../../hooks/useAnimation';
 import useNewTask from '../../hooks/useNewTask';
-import ConfettiCannon from 'react-native-confetti-cannon';
+// @ts-ignore
+import Confetti from 'react-native-confetti';
 
 export const Home = () => {
   const navigation =
@@ -22,7 +23,7 @@ export const Home = () => {
   const {handleCheckTask, handleDeleteTask} = useNewTask({
     refetch,
   });
-  const confettiRef = useRef<any>(null);
+  const confettiRef = React.useRef<Confetti>(null);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -33,7 +34,7 @@ export const Home = () => {
   const handleCheckTaskWithConfetti = async (task: Task) => {
     await handleCheckTask(task);
     if (!task.completed) {
-      confettiRef.current?.start();
+      confettiRef.current?.startConfetti();
     }
   };
 
@@ -41,13 +42,38 @@ export const Home = () => {
     navigation.navigate('EditTask', item);
   };
 
+  const completedItems = items.tasks.filter(task => !task.completed);
+
+  const hasItems = items.tasks && completedItems.length > 0;
+
   return (
     <SkeletonPageContainer
-      pageTitle={`${Number(
-        items.tasks.filter(task => !task.completed)?.length,
-      )} tarefas ativas`}
+      pageTitle={`${Number(completedItems.length)} tarefas ativas`}
       subtitle="Organize seu dia com facilidade">
-      {items.tasks && items.tasks.filter(t => !t.completed).length > 0 ? (
+      <ConditionalRender
+        condition={hasItems}
+        fallback={
+          <Styled.SkeletonContainer>
+            <Styled.TitleSkeleton>
+              Você ainda não tem nenhuma tarefa
+            </Styled.TitleSkeleton>
+          </Styled.SkeletonContainer>
+        }>
+        <FlatList
+          data={completedItems}
+          renderItem={({item}) => (
+            <TaskItem
+              item={item}
+              onEdit={itemEdit => navigateToEdit(itemEdit)}
+              onToggle={() => handleCheckTaskWithConfetti(item)}
+              onDelete={() => handleDeleteTask(item.id)}
+            />
+          )}
+          refreshing={isLoading}
+          keyExtractor={(task, index) => String(task.id ?? index)}
+        />
+      </ConditionalRender>
+      {/* {hasItems ? (
         <FlatList
           data={items.tasks.filter(task => !task.completed)}
           renderItem={({item}) => (
@@ -67,7 +93,7 @@ export const Home = () => {
             Você ainda não tem nenhuma tarefa
           </Styled.TitleSkeleton>
         </Styled.SkeletonContainer>
-      )}
+      )} */}
       <Animated.View
         style={{
           transform: [{scale: pulseAnim}],
@@ -81,7 +107,7 @@ export const Home = () => {
           </Styled.ContainerButton>
         </Styled.StyledButton>
       </Animated.View>
-      <ConfettiCannon
+      <Confetti
         ref={confettiRef}
         count={80}
         origin={{x: 200, y: 0}}
@@ -91,3 +117,15 @@ export const Home = () => {
     </SkeletonPageContainer>
   );
 };
+
+function ConditionalRender({
+  condition,
+  children,
+  fallback = <></>,
+}: {
+  condition: boolean;
+  children: React.ReactNode;
+  fallback: React.ReactNode;
+}) {
+  return condition ? children : fallback;
+}
