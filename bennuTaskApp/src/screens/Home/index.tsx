@@ -73,27 +73,6 @@ export const Home = () => {
           keyExtractor={(task, index) => String(task.id ?? index)}
         />
       </ConditionalRender>
-      {/* {hasItems ? (
-        <FlatList
-          data={items.tasks.filter(task => !task.completed)}
-          renderItem={({item}) => (
-            <TaskItem
-              item={item}
-              onEdit={itemEdit => navigateToEdit(itemEdit)}
-              onToggle={() => handleCheckTaskWithConfetti(item)}
-              onDelete={() => handleDeleteTask(item.id)}
-            />
-          )}
-          refreshing={isLoading}
-          keyExtractor={(task, index) => String(task.id ?? index)}
-        />
-      ) : (
-        <Styled.SkeletonContainer>
-          <Styled.TitleSkeleton>
-            Você ainda não tem nenhuma tarefa
-          </Styled.TitleSkeleton>
-        </Styled.SkeletonContainer>
-      )} */}
       <Animated.View
         style={{
           transform: [{scale: pulseAnim}],

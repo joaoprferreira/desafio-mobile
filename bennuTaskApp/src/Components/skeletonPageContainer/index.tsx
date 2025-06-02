@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
 import * as Styled from './styles';
 
 interface SkeletonPageContaienrProps {
@@ -13,7 +12,6 @@ export const SkeletonPageContainer = ({
   children,
   pageTitle,
   subtitle,
-  isLoading = false,
 }: SkeletonPageContaienrProps) => {
   return (
     <Styled.SkeletonContainer>

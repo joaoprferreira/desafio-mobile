@@ -19,7 +19,6 @@ const useNewTask = ({params = {}, refetch}: IUseNewTask) => {
   const task = Array.isArray(items)
     ? items.find(item => item.id === params?.id)
     : null;
-  // const {id, title, description, completed} = params;
   const [currentTitle, setCurrentTitle] = useState(
     task?.title || params?.title,
   );
